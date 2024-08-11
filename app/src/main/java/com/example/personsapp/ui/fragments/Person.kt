@@ -8,42 +8,28 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.appcompat.widget.SearchView.OnQueryTextListener
+import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-
 import com.airbnb.lottie.LottieDrawable
 import com.example.personsapp.R
-import com.example.personsapp.data.entity.Kisiler
-
 import com.example.personsapp.databinding.FragmentPersonBinding
 import com.example.personsapp.ui.adapter.KisilerAdapter
+import com.example.personsapp.ui.viewmodels.PersonViewModel
 
 class Person : Fragment() {
     private lateinit var binding:FragmentPersonBinding
+    private lateinit var viewModel: PersonViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View{
         // Inflate the layout for this fragment
-        binding= FragmentPersonBinding.inflate(inflater,container,false)
-
-        binding.personRV.layoutManager=LinearLayoutManager(requireContext())
-
+        binding= DataBindingUtil.inflate(inflater,R.layout.fragment_person,container,false)
+        binding.person=this
         lottieIcon()
-        val list1=ArrayList<Kisiler>()
-        val k1=Kisiler(1,"Ekrem","0000000")
-        val k2=Kisiler(2,"Osman","123456789")
-        val k3=Kisiler(3,"Musa","1234")
-        list1.add(k1)
-        list1.add(k2)
-        list1.add(k3)
 
-
-        val kisilerAdapter=KisilerAdapter(requireContext(),list1)
-        binding.personRV.adapter=kisilerAdapter
-
-        binding.addButton.setOnClickListener {
-            Navigation.findNavController(it).navigate(R.id.personToRegisterPerson)
-
+        viewModel.kisilerList.observe(viewLifecycleOwner){
+            val kisilerAdapter=KisilerAdapter(requireContext(), it.toMutableList(),viewModel)
+            binding.kisilerAdapter=kisilerAdapter
         }
 
         binding.searchView.setOnQueryTextListener(object :OnQueryTextListener,
@@ -51,32 +37,27 @@ class Person : Fragment() {
             override fun onQueryTextSubmit(query: String?): Boolean {
 
                 if (query != null) {
-                    search(query)
+                    viewModel.search(query)
                 }
                 return true
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 if (newText != null) {
-                    search(newText)
+                    viewModel.search(newText)
                 }
                 return true
             }
 
 
         })
-       /*/ binding.button.setOnClickListener {
-            val kisi= Kisiler(1,"osman","05301680547")
-            val gecis=PersonDirections.personToDetailPerson(kisi)
-            Navigation.findNavController(it).navigate(gecis)
-        }*/
-
+       
         return binding.root
     }
-
-
-    fun search(ara:String){
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val tempViewModel: PersonViewModel by viewModels()
+        viewModel=tempViewModel
     }
 
     fun lottieIcon(){
@@ -85,5 +66,13 @@ class Person : Fragment() {
             playAnimation()
             repeatCount= LottieDrawable.INFINITE
         }
+    }
+    fun fabButton(it:View){
+            Navigation.findNavController(it).navigate(R.id.personToRegisterPerson)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.kisileriyukle()
     }
 }

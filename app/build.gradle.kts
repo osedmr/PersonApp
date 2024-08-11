@@ -3,7 +3,7 @@ import com.android.build.api.dsl.BuildFeatures
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-    id("androidx.navigation.safeargs")
+    id ("androidx.navigation.safeargs.kotlin")
 
 
 }
@@ -40,13 +40,14 @@ android {
     }
     buildFeatures{
         viewBinding =true
+        //noinspection DataBindingWithoutKapt
+        dataBinding = true
     }
 }
 
 dependencies {
 
     implementation (libs.lottie)
-
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -57,4 +58,7 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
 }
