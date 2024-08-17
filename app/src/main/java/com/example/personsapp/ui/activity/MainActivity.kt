@@ -12,7 +12,9 @@ import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieAnimationView
 import com.example.personsapp.R
 import com.example.personsapp.databinding.ActivityMainBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private lateinit var binding:ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {

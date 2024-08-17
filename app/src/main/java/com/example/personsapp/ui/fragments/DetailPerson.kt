@@ -14,8 +14,9 @@ import com.example.personsapp.R
 import com.example.personsapp.databinding.FragmentDetailPersonBinding
 import com.example.personsapp.ui.viewmodels.DetailPersonViewModel
 import com.example.personsapp.ui.viewmodels.RegisterPersonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class DetailPerson : Fragment() {
 
     private lateinit var binding:FragmentDetailPersonBinding

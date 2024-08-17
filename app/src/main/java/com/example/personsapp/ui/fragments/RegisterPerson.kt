@@ -12,7 +12,9 @@ import com.example.personsapp.R
 import com.example.personsapp.databinding.FragmentRegisterPersonBinding
 import com.example.personsapp.ui.viewmodels.DetailPersonViewModel
 import com.example.personsapp.ui.viewmodels.RegisterPersonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class RegisterPerson : Fragment() {
 
    private lateinit var binding:FragmentRegisterPersonBinding

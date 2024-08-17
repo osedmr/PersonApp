@@ -4,14 +4,17 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.personsapp.data.entity.Kisiler
 import com.example.personsapp.data.repository.KisilerRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class PersonViewModel: ViewModel() {
+@HiltViewModel
+class PersonViewModel @Inject constructor(var kisilerRepo: KisilerRepository): ViewModel() {
 
     val kisilerList= MutableLiveData<List<Kisiler>>()
-    val kisilerRepo= KisilerRepository()
+
     init {
         kisileriyukle()
     }

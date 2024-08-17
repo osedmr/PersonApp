@@ -16,7 +16,9 @@ import com.example.personsapp.R
 import com.example.personsapp.databinding.FragmentPersonBinding
 import com.example.personsapp.ui.adapter.KisilerAdapter
 import com.example.personsapp.ui.viewmodels.PersonViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class Person : Fragment() {
     private lateinit var binding:FragmentPersonBinding
     private lateinit var viewModel: PersonViewModel

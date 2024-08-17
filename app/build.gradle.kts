@@ -4,9 +4,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     id ("androidx.navigation.safeargs.kotlin")
-
-
+    id ("kotlin-kapt")
+    id("com.google.dagger.hilt.android")
 }
+
 
 android {
     namespace = "com.example.personsapp"
@@ -45,6 +46,8 @@ android {
     }
 }
 
+
+
 dependencies {
 
     implementation (libs.lottie)
@@ -61,4 +64,11 @@ dependencies {
 
     implementation ("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+
+}
+kapt {
+    correctErrorTypes = true
 }
