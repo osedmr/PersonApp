@@ -11,6 +11,9 @@
         <variable
             name="ToolBar"
             type="String" />
+        <variable
+            name="viewModel"
+            type="com.example.personsapp.ui.viewmodels.RegisterPersonViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -61,7 +64,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="name"
-                android:inputType="text" />
+                android:inputType="text"
+                android:text="@{viewModel.inputText}"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -80,7 +85,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="number"
-                android:inputType="phone" />
+                android:inputType="phone"
+                android:text="@{viewModel.inputText}"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button

@@ -1,44 +1,45 @@
 package com.example.personsapp.data.datasource
 
-import android.util.Log
 import com.example.personsapp.data.entity.Kisiler
+import com.example.personsapp.room.KisilerDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-class KisilerDataSource {
+class KisilerDataSource (var kisilerDao: KisilerDao) {
 
 
     suspend fun kisileriyukle(): List<Kisiler> =
         withContext(Dispatchers.IO) {
-            val list1 = ArrayList<Kisiler>()
-            val k1 = Kisiler(1, "Ekrem", "0000000")
-            val k2 = Kisiler(2, "Osman", "123456789")
-            val k3 = Kisiler(3, "Musa", "1234")
-            list1.add(k1)
-            list1.add(k2)
-            list1.add(k3)
-            return@withContext list1
+
+            return@withContext kisilerDao.kisileriYukle()
         }
-
-    suspend fun save(name: String, num: String) {
-        Log.e("Save", "$name --- $num")
-
+    suspend fun save(name: String, num: String):String {
+        if (num.length != 11 || num.toLongOrNull() == null) {
+            return "Lütfen 11 haneli bir numara giriniz"
+        }
+        val existingPerson = kisilerDao.getByNumber(num)
+        if (existingPerson != null) {
+            return "Bu numara kayıtlı"
+        }
+        val kisiler = Kisiler(0, name, num)
+        kisilerDao.kaydet(kisiler)
+        return "Başarıyla kaydedildi"
     }
 
     suspend fun update(kisi_id: Int, kisi_ad: String, kisi_tel: String) {
-        Log.e("güncelle", "$kisi_id --- $kisi_ad -------- $kisi_tel")
+        val kisiler = Kisiler(kisi_id, kisi_ad, kisi_tel)
+        kisilerDao.update(kisiler)
     }
 
     suspend fun sil(id: Int) {
-        Log.e("sil", "$id kisi silindi")
+        val silinenKisi = Kisiler(id, "", "")
+        kisilerDao.delete(silinenKisi)
     }
 
     suspend fun search(ara: String):List<Kisiler> =
         withContext(Dispatchers.IO) {
-            val list1 = ArrayList<Kisiler>()
-            val k1 = Kisiler(1, "Ekrem", "0000000")
-            list1.add(k1)
-            return@withContext list1
+
+            return@withContext kisilerDao.searchByName(ara)
         }
 
 

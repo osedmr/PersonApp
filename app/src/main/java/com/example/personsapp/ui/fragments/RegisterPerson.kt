@@ -6,8 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.example.personsapp.R
 import com.example.personsapp.databinding.FragmentRegisterPersonBinding
 import com.example.personsapp.ui.viewmodels.DetailPersonViewModel
@@ -19,6 +21,7 @@ class RegisterPerson : Fragment() {
 
    private lateinit var binding:FragmentRegisterPersonBinding
    private lateinit var viewModel: RegisterPersonViewModel
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         // Inflate the layout for this fragment
 
@@ -31,6 +34,14 @@ class RegisterPerson : Fragment() {
         binding.imageButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+        lifecycleScope.launchWhenStarted {
+            viewModel.toastMessage.collect { message ->
+                message?.let {
+                    Toast.makeText(requireContext(), it, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
 
         return binding.root
     }

@@ -1,20 +1,34 @@
 package com.example.personsapp.ui.viewmodels
 
+import android.widget.Toast
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.personsapp.data.repository.KisilerRepository
+import dagger.hilt.android.internal.Contexts.getApplication
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterPersonViewModel@Inject constructor(var kisilerRepo: KisilerRepository): ViewModel() {
 
-    fun save(name:String, num:String){
-        CoroutineScope(Dispatchers.Main).launch {
-            kisilerRepo.save(name,num)
-        }
+    val toastMessage = MutableStateFlow<String?>(null)
+    val inputText= MutableStateFlow<String?>(null)
 
+    fun save(name: String, num: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val message = kisilerRepo.save(name, num)
+            withContext(Dispatchers.Main) {
+                toastMessage.value = message
+            }
+        }
+    }
+    fun updateInputText(newText: String) {
+        inputText.value = newText.trim()
     }
 }
