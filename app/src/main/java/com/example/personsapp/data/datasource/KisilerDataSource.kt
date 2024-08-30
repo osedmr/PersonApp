@@ -14,6 +14,9 @@ class KisilerDataSource (var kisilerDao: KisilerDao) {
             return@withContext kisilerDao.kisileriYukle()
         }
     suspend fun save(name: String, num: String):String {
+        if (name.isEmpty()){
+            return "Lütfen bir isim giriniz"
+        }
         if (num.length != 11 || num.toLongOrNull() == null) {
             return "Lütfen 11 haneli bir numara giriniz"
         }

@@ -1,7 +1,9 @@
 package com.example.personsapp.ui.viewmodels
 
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.personsapp.data.repository.KisilerRepository
 import dagger.hilt.android.internal.Contexts.getApplication
@@ -18,7 +20,6 @@ import javax.inject.Inject
 class RegisterPersonViewModel@Inject constructor(var kisilerRepo: KisilerRepository): ViewModel() {
 
     val toastMessage = MutableStateFlow<String?>(null)
-    val inputText= MutableStateFlow<String?>(null)
 
     fun save(name: String, num: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -28,7 +29,5 @@ class RegisterPersonViewModel@Inject constructor(var kisilerRepo: KisilerReposit
             }
         }
     }
-    fun updateInputText(newText: String) {
-        inputText.value = newText.trim()
-    }
+
 }
